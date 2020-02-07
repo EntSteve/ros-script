@@ -1,0 +1,52 @@
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+sudo apt install -y git
+sudo apt update && sudo apt install -y curl gnupg2 lsb-release
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64,arm64] http://packages.ros.org/ros2/ubuntu `lsb_release -cs` main" > /etc/apt/sources.list.d/ros2-latest.list'
+sudo apt update
+sudo apt install -y ros-dashing-desktop
+source /opt/ros/dashing/setup.bash
+sudo apt install python3-argcomplete
+sudo apt update
+#sudo apt install -y ros-dashing-rmw-opensplice-cpp
+#sudo apt install -y ros-dashing-rmw-connext-cpp 
+sudo apt install -y python3-colcon-common-extensions
+sudo apt install -y \
+google-mock \
+libceres-dev \
+liblua5.3-dev \
+libboost-dev \
+libboost-iostreams-dev \
+libprotobuf-dev \
+protobuf-compiler \
+libcairo2-dev \
+libpcl-dev \
+python3-sphinx
+curl -sSL http://get.gazebosim.org | sh
+sudo apt install -y ros-dashing-gazebo-*
+sudo apt install -y ros-dashing-cartographer
+sudo apt install -y ros-dashing-cartographer-ros
+sudo apt install -y ros-dashing-navigation2
+sudo apt install -y ros-dashing-nav2-bringup
+sudo apt install -y python3-vcstool
+mkdir -p ~/turtlebot3_ws/src
+cd ~/turtlebot3_ws
+wget https://raw.githubusercontent.com/ROBOTIS-GIT/turtlebot3/ros2/turtlebot3.repos
+vcs import src < turtlebot3.repos
+colcon build --symlink-install
+echo 'source ~/turtlebot3_ws/install/setup.bash' >> ~/.bashrc
+echo 'export ROS_DOMAIN_ID=69 #TURTLEBOT3' >> ~/.bashrc
+source ~/.bashrc
+mkdir -p ~/ros2_example_ws/src
+cd ~/ros2_example_ws
+git clone https://github.com/ros2/examples src/examples
+cd ~/ros2_example_ws/src/examples/
+git checkout $ROS_DISTRO
+cd ~/ros2_example_ws
+colcon build --symlink-install
+. install/setup.bash
+sudo apt update
+sudo apt udgrade -y
+sudo apt autoremove
